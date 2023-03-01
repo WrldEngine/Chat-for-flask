@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Ubs</title>
+    </head>
+    <body>
+        <strong id="author">{{ author }}</strong>
+        <ul id="messages_box">
+            {% for out in outp %}
+                <li>{{ out.msg_content }}: {{ out.msg_author }}</li>
+            {% endfor %}
+        </ul>
+
+        <form id='send_form' autocomplete="off" novalidate>
+            <textarea id='msg_content', type="text", placeholder="Enter message"></textarea>
+            <button id="send_message">Submit</button>
+        </form>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js" integrity="sha256-bQmrZe4yPnQrLTY+1gYylfNMBuGfnT/HKsCGX+9Xuqo=" crossorigin="anonymous"></script>
+        <script type="text/javascript" charset="utf-8">
+            const socket = io.connect("127.0.0.1:5000");
+            const author = $('#author').text();
+
+            $('#send_message').on('click', () => {
+                socket.send({
+                    'message': $('#msg_content').val(),
+                    'author': author
+                });
+            });
+        </script>
+    </body>
+</html>
